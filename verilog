@@ -1,0 +1,87 @@
+module led_controller(
+    input wire clk,
+    output reg led_red,
+    output reg led_green,
+    output reg led_blue
+);
+
+reg [31:0] count;
+
+always @(posedge clk) begin
+    count <= count + 1;
+    
+    // Mavi led yanacak 5 saniye boyunca
+    if (count >= 0 && count < 5_000_000)
+        begin
+            led_red <= 0;
+            led_green <= 0;
+            led_blue <= 1;
+        end
+    
+    // Yeşil led yanacak 15 saniye boyunca
+    else if (count >= 5_000_000 && count < 20_000_000)
+        begin
+            led_red <= 0;
+            led_green <= 1;
+            led_blue <= 0;
+        end
+    
+    // Kırmızı led yanacak 5 saniye boyunca
+    else if (count >= 20_000_000 && count < 25_000_000)
+        begin
+            led_red <= 1;
+            led_green <= 0;
+            led_blue <= 0;
+        end
+    
+    // Kırmızı ve Mavi led aynı anda yanacak 120 saniye boyunca
+    else if (count >= 25_000_000 && count < 145_000_000)
+        begin
+            led_red <= 1;
+            led_green <= 0;
+            led_blue <= 1;
+        end
+    
+    // Tüm ledler sönecek 5 saniye boyunca
+    else if (count >= 145_000_000 && count < 150_000_000)
+        begin
+            led_red <= 0;
+            led_green <= 0;
+            led_blue <= 0;
+        end
+    
+    // Yeşil ve Kırmızı led aynı anda yanacak 200 saniye boyunca
+    else if (count >= 150_000_000 && count < 350_000_000)
+        begin
+            led_red <= 1;
+            led_green <= 1;
+            led_blue <= 0;
+        end
+    
+    // Tüm ledler sönecek 5 saniye boyunca
+    else if (count >= 350_000_000 && count < 355_000_000)
+        begin
+            led_red <= 0;
+            led_green <= 0;
+            led_blue <= 0;
+        end
+    
+    // Mavi ve Yeşil led aynı anda yanacak 90 saniye boyunca
+    else if (count >= 355_000_000 && count < 445_000_000)
+        begin
+            led_red <= 0;
+            led_green <= 1;
+            led_blue <= 1;
+        end
+    
+    // Döngü sonunda tüm ledler sönecek
+    else if (count >= 445_000_000)
+        begin
+            led_red <= 0;
+            led_green <= 0;
+            led_blue <= 0;
+            count <= 0;
+        end
+end
+
+endmodule
